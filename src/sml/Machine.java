@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import lombok.Data;
 
 /*
- * The machine language interpreter
+ * The machine language interpreter : Test Sync
  */
 @Data
 public class Machine {
