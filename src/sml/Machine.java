@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import lombok.Data;
 
 /*
- * The machine language interpreter : Test Sync
+ * The machine language interpreter
  */
 @Data
 public class Machine {
@@ -26,6 +26,7 @@ public class Machine {
 
 	private int pc;
 
+        //This is an Initialisation block for the class
 	{
 		labels = new Labels();
 		prog = new ArrayList<>();
