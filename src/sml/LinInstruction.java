@@ -18,7 +18,6 @@ public class LinInstruction extends Instruction {
 		super(label, "lin");
 		this.register = register;
 		this.value = value;
-
 	}
 
 	@Override

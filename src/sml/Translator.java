@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import java.lang.Class;
+
 /*
  * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
  */
@@ -85,10 +87,18 @@ public class Translator {
 		String ins = scan();
 		switch (ins) {
 		case "add":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new AddInstruction(label, r, s1, s2);
+                    try {
+                        String className = "sml." + ins.toUpperCase().charAt(0) + ins.substring(1) + "Instruction";
+                        Class c = Class.forName(className);
+                        System.out.println("test");
+                    } catch (ClassNotFoundException ex) {
+                        System.out.println("Could not find class");
+                    }
+                    break;
+//			r = scanInt();
+//			s1 = scanInt();
+//			s2 = scanInt();
+//			return new AddInstruction(label, r, s1, s2);
 		case "lin":
 			r = scanInt();
 			s1 = scanInt();
@@ -118,7 +128,7 @@ public class Translator {
                 case "bnz":
 			r = scanInt();
                         l = scan();
-			return new BNZInstruction(label, r, l);        
+			return new BnzInstruction(label, r, l);        
                     
                 
 		}

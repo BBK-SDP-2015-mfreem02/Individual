@@ -10,14 +10,14 @@ import java.util.ArrayList;
  *
  * @author mike
  */
-public class BNZInstruction extends Instruction{
+public class BnzInstruction extends Instruction{
     private int register;
     private String destLabel;
-    public BNZInstruction(String l, String op){
+    public BnzInstruction(String l, String op){
         super(l, op);
     }
     
-    public BNZInstruction(String l, int reg, String dlab){
+    public BnzInstruction(String l, int reg, String dlab){
         this(l, "bnz");
         register = reg;
         destLabel = dlab;
