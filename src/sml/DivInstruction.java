@@ -10,7 +10,10 @@ package sml;
 public class DivInstruction extends AddInstruction {
 
 	public DivInstruction(String label, int result, int op1, int op2) {
-            super(label, result, op1, op2);
+            super(label, "div");
+            setResult(result);
+            setOp1(op1);
+            setOp2(op2);
 	}
 
 	@Override

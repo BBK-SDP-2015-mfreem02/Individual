@@ -10,7 +10,10 @@ package sml;
 public class MulInstruction extends AddInstruction {
 
 	public MulInstruction(String label, int result, int op1, int op2) {
-            super(label, result, op1, op2);
+            super(label, "mul");
+            setResult(result);
+            setOp1(op1);
+            setOp2(op2);
 	}
 
 	@Override

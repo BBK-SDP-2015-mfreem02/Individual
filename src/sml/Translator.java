@@ -7,6 +7,10 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import java.lang.Class;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
@@ -86,41 +90,10 @@ public class Translator {
 
 		String ins = scan();
 		switch (ins) {
-		case "add":
-                    try {
-                        String className = "sml." + ins.toUpperCase().charAt(0) + ins.substring(1) + "Instruction";
-                        Class c = Class.forName(className);
-                        System.out.println("test");
-                    } catch (ClassNotFoundException ex) {
-                        System.out.println("Could not find class");
-                    }
-                    break;
-//			r = scanInt();
-//			s1 = scanInt();
-//			s2 = scanInt();
-//			return new AddInstruction(label, r, s1, s2);
 		case "lin":
 			r = scanInt();
 			s1 = scanInt();
 			return new LinInstruction(label, r, s1);
-		case "sub":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new SubInstruction(label, r, s1, s2);
-                
-                case "mul":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new MulInstruction(label, r, s1, s2);
-                                    
-                case "div":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new DivInstruction(label, r, s1, s2);
-                
                 case "out":
 			r = scanInt();
 			return new OutInstruction(label, r);
@@ -128,14 +101,24 @@ public class Translator {
                 case "bnz":
 			r = scanInt();
                         l = scan();
-			return new BnzInstruction(label, r, l);        
-                    
-                
+			return new BnzInstruction(label, r, l);
+                default:
+                    r = scanInt();
+                    s1 = scanInt();
+                    s2 = scanInt();
+                    String className = "sml." + ins.toUpperCase().charAt(0) + ins.substring(1) + "Instruction";
+                    Class c;
+                    Class cI = int.class;
+                    Class cS = String.class;
+                    try {
+                        c = Class.forName(className);
+                        Constructor con = c.getConstructor(cS, cI, cI, cI);
+                        return (Instruction)con.newInstance(label, r, s1, s2);
+                    } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
+                        System.out.println("Exception caught : " + ex.getMessage());
+                        return null;
+                    }
 		}
-
-		// You will have to write code here for the other instructions.
-
-		return null;
 	}
 
 	/*
