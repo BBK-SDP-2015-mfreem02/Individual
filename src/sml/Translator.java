@@ -90,14 +90,6 @@ public class Translator {
 
 		String ins = scan();
 		switch (ins) {
-		case "lin":
-			r = scanInt();
-			s1 = scanInt();
-			return new LinInstruction(label, r, s1);
-                case "out":
-			r = scanInt();
-			return new OutInstruction(label, r);
-                
                 case "bnz":
 			r = scanInt();
                         l = scan();

@@ -6,3 +6,4 @@ f3 lin 4 55
 f4 mul 5 3 4
 f5 div 6 5 1
 f6 add 7 3 4
+f7 out 3

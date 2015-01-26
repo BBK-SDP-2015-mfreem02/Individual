@@ -17,7 +17,7 @@ public class OutInstruction extends Instruction {
         super(l, op);
     }
     
-    public OutInstruction(String label, int reg){
+    public OutInstruction(String label, int reg, int s1, int s2){
         this(label, "out");
         this.result = reg;
     }
