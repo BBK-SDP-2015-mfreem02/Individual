@@ -83,35 +83,72 @@ public class Translator {
 		int s2;
 		int r;
 		int x;
-                String l;
+                String destLabel;
 
 		if (line.equals(""))
 			return null;
 
 		String ins = scan();
-		switch (ins) {
-                case "bnz":
+                
+                //classes used to get the constructors
+                Class cI = int.class;
+                Class cS = String.class;
+                Class c;
+                
+                //Used to populate get class from name
+                String className = "sml." + ins.toUpperCase().charAt(0) + ins.substring(1) + "Instruction";
+                
+                
+                //This builds the instructions to be returned.
+                if(ins.equals("bnz")){
 			r = scanInt();
-                        l = scan();
-			return new BnzInstruction(label, r, l);
-                default:
+                        destLabel = scan();
+                        if(r == Integer.MAX_VALUE || destLabel.equals(""))
+                            return null;
+                        try {
+                            c = Class.forName(className);
+                            Constructor con = c.getConstructor(cS, cI, cS);
+                            return (Instruction)con.newInstance(label, r, destLabel);
+                        } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
+                            System.out.println("Exception caught : " + ex.getMessage());
+                            return null;
+                        }
+                }else{
                     r = scanInt();
                     s1 = scanInt();
                     s2 = scanInt();
-                    String className = "sml." + ins.toUpperCase().charAt(0) + ins.substring(1) + "Instruction";
-                    Class c;
-                    Class cI = int.class;
-                    Class cS = String.class;
-                    try {
-                        c = Class.forName(className);
-                        Constructor con = c.getConstructor(cS, cI, cI, cI);
-                        return (Instruction)con.newInstance(label, r, s1, s2);
-                    } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
-                        System.out.println("Exception caught : " + ex.getMessage());
-                        return null;
+                    if(r != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE && s2 != Integer.MAX_VALUE){
+                        try {
+                            c = Class.forName(className);
+                            Constructor con = c.getConstructor(cS, cI, cI, cI);
+                            return (Instruction)con.newInstance(label, r, s1, s2);
+                        } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
+                            System.out.println("Exception caught : " + ex.getMessage());
+                            return null;
+                        }                        
+                    }else if(r != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE){
+                        try {
+                            c = Class.forName(className);
+                            Constructor con = c.getConstructor(cS, cI, cI, cI);
+                            return (Instruction)con.newInstance(label, r, s1, s2);
+                        } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
+                            System.out.println("Exception caught : " + ex.getMessage());
+                            return null;
+                        }    
+                        
+                    }else if(r != Integer.MAX_VALUE){
+                        try {
+                            c = Class.forName(className);
+                            Constructor con = c.getConstructor(cS, cI, cI, cI);
+                            return (Instruction)con.newInstance(label, r, s1, s2);
+                        } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
+                            System.out.println("Exception caught : " + ex.getMessage());
+                            return null;
+                        }
                     }
-		}
-	}
+                }   
+                return null;		
+}
 
 	/*
 	 * Return the first word of line and remove it from line. If there is no
