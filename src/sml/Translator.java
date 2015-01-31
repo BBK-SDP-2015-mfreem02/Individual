@@ -97,59 +97,50 @@ public class Translator {
                 
                 //Building the paramet used for the getclass forname method
                 String className = "sml." + ins.toUpperCase().charAt(0) + ins.substring(1) + "Instruction";
-                
-                
-                //This builds the instructions to be returned.
-                if(ins.equals("bnz")){
-			r = scanInt();
+
+                try{
+                    c = Class.forName(className);
+                    if(ins.equals("bnz")) {
+                        r = scanInt();
                         destLabel = scan();
-                        if(r == Integer.MAX_VALUE || destLabel.equals(""))
+                        //return null if either of these values are not populated
+                        if(r == Integer.MAX_VALUE || destLabel.equals("")) {
                             return null;
-                        try {
-                            c = Class.forName(className);
+                        } else {
                             Constructor con = c.getConstructor(cS, cI, cS);
                             return (Instruction)con.newInstance(label, r, destLabel);
-                        } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
-                            System.out.println("Exception caught : " + ex.getMessage());
-                            return null;
                         }
-                }else{
-                    r = scanInt();
-                    s1 = scanInt();
-                    s2 = scanInt();
-                    //If all parameters are populated - build the Constructor the instruction for ADD/MULT/DIV/SUB 
-                    if(r != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE && s2 != Integer.MAX_VALUE){
-                        try {
-                            c = Class.forName(className);
+                    } else {
+                        r = scanInt();
+                        s1 = scanInt();
+                        s2 = scanInt();
+                        
+                        //If all parameters are populated - build the Constructor the instruction for ADD/MULT/DIV/SUB 
+                        if (r != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE && s2 != Integer.MAX_VALUE) {
+                            
                             Constructor con = c.getConstructor(cS, cI, cI, cI);
                             return (Instruction)con.newInstance(label, r, s1, s2);
-                        } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
-                            System.out.println("Exception caught : " + ex.getMessage());
-                            return null;
-                        }
-                    //if register and value operands are populated - Build the Constructor and return the LIN Instruction
-                    }else if(r != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE){
-                        try {
-                            c = Class.forName(className);
+                            
+                        //if register and value operands are populated - Build the Constructor and return the LIN Instruction
+                        } else if (r != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE) {
+                            
                             Constructor con = c.getConstructor(cS, cI, cI);
                             return (Instruction)con.newInstance(label, r, s1);
-                        } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
-                            System.out.println("Exception caught : " + ex.getMessage());
-                            return null;
-                        }    
-                    //if only the register is populated - Build the Constructor and the return the OUT Instruction  
-                    }else if(r != Integer.MAX_VALUE){
-                        try {
-                            c = Class.forName(className);
+                            
+                        //if only the register is populated - Build the Constructor and the return the OUT Instruction  
+                        } else if (r != Integer.MAX_VALUE) {
+                            
                             Constructor con = c.getConstructor(cS, cI);
                             return (Instruction)con.newInstance(label, r);
-                        } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
-                            System.out.println("Exception caught : " + ex.getMessage());
+                            
+                        } else {
                             return null;
                         }
                     }
-                }   
-                return null;		
+                }catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
+                    System.out.println("Exception caught : " + ex.getMessage());
+                    return null;
+                }
 }
 
 	/*
