@@ -95,7 +95,7 @@ public class Translator {
                 Class cS = String.class;
                 Class c;
                 
-                //Used to populate get class from name
+                //Building the paramet used for the getclass forname method
                 String className = "sml." + ins.toUpperCase().charAt(0) + ins.substring(1) + "Instruction";
                 
                 
@@ -117,6 +117,7 @@ public class Translator {
                     r = scanInt();
                     s1 = scanInt();
                     s2 = scanInt();
+                    //If all parameters are populated - build the Constructor the instruction for ADD/MULT/DIV/SUB 
                     if(r != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE && s2 != Integer.MAX_VALUE){
                         try {
                             c = Class.forName(className);
@@ -125,22 +126,23 @@ public class Translator {
                         } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
                             System.out.println("Exception caught : " + ex.getMessage());
                             return null;
-                        }                        
+                        }
+                    //if register and value operands are populated - Build the Constructor and return the LIN Instruction
                     }else if(r != Integer.MAX_VALUE && s1 != Integer.MAX_VALUE){
                         try {
                             c = Class.forName(className);
-                            Constructor con = c.getConstructor(cS, cI, cI, cI);
-                            return (Instruction)con.newInstance(label, r, s1, s2);
+                            Constructor con = c.getConstructor(cS, cI, cI);
+                            return (Instruction)con.newInstance(label, r, s1);
                         } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
                             System.out.println("Exception caught : " + ex.getMessage());
                             return null;
                         }    
-                        
+                    //if only the register is populated - Build the Constructor and the return the OUT Instruction  
                     }else if(r != Integer.MAX_VALUE){
                         try {
                             c = Class.forName(className);
-                            Constructor con = c.getConstructor(cS, cI, cI, cI);
-                            return (Instruction)con.newInstance(label, r, s1, s2);
+                            Constructor con = c.getConstructor(cS, cI);
+                            return (Instruction)con.newInstance(label, r);
                         } catch (NoSuchMethodException | InstantiationException| IllegalAccessException| InvocationTargetException | ClassNotFoundException ex) {
                             System.out.println("Exception caught : " + ex.getMessage());
                             return null;
