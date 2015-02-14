@@ -82,7 +82,7 @@ public class Translator {
 		int s1; // Possible operands of the instruction
 		int s2;
 		int r;
-		int x;
+
                 String destLabel;
 
 		if (line.equals(""))
@@ -95,7 +95,7 @@ public class Translator {
                 Class cS = String.class;
                 Class c;
                 
-                //Building the paramet used for the getclass forname method
+                //Building the parameters used for the getclass forname method
                 String className = "sml." + ins.toUpperCase().charAt(0) + ins.substring(1) + "Instruction";
 
                 try{

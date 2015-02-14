@@ -3,9 +3,9 @@ package sml;
 import lombok.Data;
 
 /**
- * This class ....
- * 
- * @author someone
+ * This class extends instruction and becomes a base class for my other
+ * mathematical instruction class
+ * @author Michael Freeman
  */
 @Data
 public class AddInstruction extends Instruction {

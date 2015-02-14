@@ -6,3 +6,4 @@ l1 add 24 20 21
 l1 sub 24 20 21
 l1 mul 24 20 21
 l1 div 24 20 21
+l1 bnz 25 f1

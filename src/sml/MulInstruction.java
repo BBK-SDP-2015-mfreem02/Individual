@@ -2,10 +2,11 @@ package sml;
 
 
 /**
- * This class ....
+ * This class extends AddInstruction
  * 
- * @author someone
+ * @author Michael Freeman
  */
+
 
 public class MulInstruction extends AddInstruction {
 
